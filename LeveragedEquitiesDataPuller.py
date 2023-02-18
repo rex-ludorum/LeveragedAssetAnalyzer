@@ -8,8 +8,6 @@ from requests.compat import urljoin
 
 todayDate = datetime.datetime.now().date()
 iterDate = todayDate - relativedelta.relativedelta(years=2)
-if iterDate.isoweekday() in set((6, 7)):
-    iterDate += relativedelta.relativedelta(days=8 - iterDate.isoweekday())
 
 baseUrl = "https://api.polygon.io/v1/open-close/"
 
@@ -23,7 +21,6 @@ params = {
 for ticker in tickerList:
     specificUrl = urljoin(baseUrl, ticker)
     while iterDate < todayDate:
-        iterDate += relativedelta.relativedelta(days=1)
         if iterDate.isoweekday() in set((6, 7)):
             iterDate += relativedelta.relativedelta(days=8 - iterDate.isoweekday())
         specificUrl = urljoin(specificUrl, iterDate.strftime('%Y-%m-%d'))
@@ -33,4 +30,5 @@ for ticker in tickerList:
             os.makedirs(ticker, exist_ok=True)
             with open(ticker + iterDate.strftime('%Y-%m-%d'), "w") as fileWriter:
                 fileWriter.write(json_object)
+        iterDate += relativedelta.relativedelta(days=1)
         time.sleep(12.5)
