@@ -70,6 +70,10 @@ for ticker, list in returnPercentDict.items():
     print(ticker)
     print("Dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, list, 1)), DECIMAL_PLACES)))
     print("Average percent return: " + str(round(decimal.Decimal(sum(list) / len(list)), DECIMAL_PLACES)))
+    print("Min average percent return: " + str(round(decimal.Decimal(min(list)), DECIMAL_PLACES)))
+    print("Max average percent return: " + str(round(decimal.Decimal(max(list)), DECIMAL_PLACES)))
     maxList = maxPercentDict[ticker]
     print("Max dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, maxList, 1)), DECIMAL_PLACES)))
     print("Average max percent return: " + str(round(decimal.Decimal(sum(maxList) / len(maxList)), DECIMAL_PLACES)))
+    print("Min max percent return: " + str(round(decimal.Decimal(min(maxList)), DECIMAL_PLACES)))
+    print("Max max percent return: " + str(round(decimal.Decimal(max(maxList)), DECIMAL_PLACES)))
