@@ -1,9 +1,13 @@
 import os
 import json
 import operator
+import decimal
 from functools import reduce
 
+DECIMAL_PLACES = 4
+
 tickerList = ["SOXX/", "QQQ/", "FNGS/"]
+
 upTickerDict = {
     "SOXX/" : "SOXL/", 
     "QQQ/" : "TQQQ/",
@@ -25,11 +29,21 @@ returnPercentDict = {
     "QQQ/" : [],
     "FNGS/" : []
 }
+maxAmountDict = {
+    "SOXX/" : [],
+    "QQQ/" : [],
+    "FNGS/" : []
+}
+maxPercentDict = {
+    "SOXX/" : [],
+    "QQQ/" : [],
+    "FNGS/" : []
+}
 
 for ticker in tickerList:
-    numberHighsBelowOpens = 0
     fileList = os.listdir(ticker)
     previousClose = -1
+
     with open(ticker + fileList[0], "r") as fileReader:
         data = json.load(fileReader)
         previousClose = data["close"]
@@ -45,11 +59,17 @@ for ticker in tickerList:
                 with open(downTickerDict[ticker] + file, "r") as leveragedFileReader:
                     data = json.load(leveragedFileReader)
             returnAmount = data["close"] - data["open"]
+            maxAmount = data["high"] - data["open"]
             returnAmountDict[ticker].append(returnAmount)
+            maxAmountDict[ticker].append(maxAmount)
             returnPercentDict[ticker].append(1 + returnAmount / data["open"])
+            maxPercentDict[ticker].append(1 + maxAmount / data["open"])
             previousClose = nextPreviousClose
 
 for ticker, list in returnPercentDict.items():
     print(ticker)
-    print(reduce(operator.mul, list, 1))
-    print(sum(list) / len(list))
+    print("Dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, list, 1)), DECIMAL_PLACES)))
+    print("Average percent return: " + str(round(decimal.Decimal(sum(list) / len(list)), DECIMAL_PLACES)))
+    maxList = maxPercentDict[ticker]
+    print("Max dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, maxList, 1)), DECIMAL_PLACES)))
+    print("Average max percent return: " + str(round(decimal.Decimal(sum(maxList) / len(maxList)), DECIMAL_PLACES)))
