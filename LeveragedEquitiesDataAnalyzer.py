@@ -2,6 +2,8 @@ import os
 import json
 import operator
 import decimal
+import numpy as np
+import pandas as pd
 from functools import reduce
 
 DECIMAL_PLACES = 4
@@ -42,6 +44,9 @@ maxPercentDict = {
 
 for ticker in tickerList:
     fileList = os.listdir(ticker)
+    startDate = "2022-01-01"
+    startIndex = next(x for x, val in enumerate(fileList) if val >= startDate)
+    fileList = fileList[startIndex:]
     previousClose = -1
 
     with open(ticker + fileList[0], "r") as fileReader:
@@ -69,7 +74,7 @@ for ticker in tickerList:
 for ticker, list in returnPercentDict.items():
     print(ticker)
     print("Dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, list, 1)), DECIMAL_PLACES)))
-    print("Dollar-weighted return exluding losses: " + str(round(decimal.Decimal(reduce(operator.mul, map(lambda x : max(x, 1), list), 1)), DECIMAL_PLACES)))
+    print("Dollar-weighted return excluding losses: " + str(round(decimal.Decimal(reduce(operator.mul, map(lambda x : max(x, 1), list), 1)), DECIMAL_PLACES)))
     print("Average percent return: " + str(round(decimal.Decimal(sum(list) / len(list)), DECIMAL_PLACES)))
     print("Min average percent return: " + str(round(decimal.Decimal(min(list)), DECIMAL_PLACES)))
     print("Max average percent return: " + str(round(decimal.Decimal(max(list)), DECIMAL_PLACES)))
@@ -78,3 +83,6 @@ for ticker, list in returnPercentDict.items():
     print("Average max percent return: " + str(round(decimal.Decimal(sum(maxList) / len(maxList)), DECIMAL_PLACES)))
     print("Min max percent return: " + str(round(decimal.Decimal(min(maxList)), DECIMAL_PLACES)))
     print("Max max percent return: " + str(round(decimal.Decimal(max(maxList)), DECIMAL_PLACES)))
+
+    #averagePercentReturnDataframe = pd.DataFrame(list)
+    #averagePercentReturnDataframe.plot.hist(grid=True, bins=20, rwidth=0.9, color='#607c8e')
