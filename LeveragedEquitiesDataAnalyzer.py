@@ -9,45 +9,186 @@ from matplotlib.ticker import FormatStrFormatter
 
 DECIMAL_PLACES = 4
 
-tickerList = ["SOXX/", "QQQ/", "FNGS/"]
+tickerList = ["SOXX/", "QQQ/", "FNGS/", "SPY/", "XLF/", "VGT/", "VTWO/", "XBI/", "TLT/", "DIA/", "FXI/", "FDN/", "EEM/", "SPHB/", "IYR/", "MDY/", "IEF/", "GDX/", "GDXJ/", "XLE/",
+    "IEO/"]
 
 upTickerDict = {
     "SOXX/" : "SOXL/", 
     "QQQ/" : "TQQQ/",
-    "FNGS/" : "FNGU/"
+    # "FNGS/" : "FNGU/",
+    "SPY/" : "SPXL/",
+    "XLF/" : "FAS/",
+    "VGT/" : "TECL/",
+    "VTWO/" : "TNA/",
+    "XBI/" : "LABU/",
+    "TLT/" : "TMF/",
+    "DIA/" : "UDOW/",
+    "FXI/" : "YINN/",
+    "FDN/" : "WEBL/",
+    "EEM/" : "EDC/",
+    "SPHB/" : "HIBL/",
+    "IYR/" : "DRN/",
+    "MDY/" : "UMDD/",
+    "IEF/" : "TYD/",
+    # "XLF/" : "BNKU/",
+    "FNGS/" : "BULZ/",
+    "GDX/" : "GDXU/",
+    "GDXJ/" : "GDXU/",
+    "XLE/" : "NRGU/",
+    "IEO/" : "OILU/"
 }
 downTickerDict = {
     "SOXX/" : "SOXS/", 
     "QQQ/" : "SQQQ/",
-    "FNGS/" : "FNGD/"
+    # "FNGS/" : "FNGD/",
+    "SPY/" : "SPXS/",
+    "XLF/" : "FAZ/",
+    "VGT/" : "TECS/",
+    "VTWO/" : "TZA/",
+    "XBI/" : "LABD/",
+    "TLT/" : "TMV/",
+    "DIA/" : "SDOW/",
+    "FXI/" : "YANG/",
+    "FDN/" : "WEBS/",
+    "EEM/" : "EDZ/",
+    "SPHB/" : "HIBS/",
+    "IYR/" : "DRV/",
+    "MDY/" : "SMDD/",
+    "IEF/" : "TYO/",
+    # "XLF/" : "BNKD/",
+    "FNGS/" : "BERZ/",
+    "GDX/" : "GDXD/",
+    "GDXJ/" : "GDXD/",
+    "XLE/" : "NRGD/",
+    "IEO/" : "OILD/"
 }
 
 premarketPercentDict = {
     "SOXX/" : [], 
     "QQQ/" : [],
-    "FNGS/" : []
+    # "FNGS/" : [],
+    "SPY/" : [],
+    "XLF/" : [],
+    "VGT/" : [],
+    "VTWO/" : [],
+    "XBI/" : [],
+    "TLT/" : [],
+    "DIA/" : [],
+    "FXI/" : [],
+    "FDN/" : [],
+    "EEM/" : [],
+    "SPHB/" : [],
+    "IYR/" : [],
+    "MDY/" : [],
+    "IEF/" : [],
+    # "XLF/" : [],
+    "FNGS/" : [],
+    "GDX/" : [],
+    "GDXJ/" : [],
+    "XLE/" : [],
+    "IEO/" : []
 }
 returnPercentDict = {
     "SOXX/" : [], 
     "QQQ/" : [],
-    "FNGS/" : []
+    # "FNGS/" : [],
+    "SPY/" : [],
+    "XLF/" : [],
+    "VGT/" : [],
+    "VTWO/" : [],
+    "XBI/" : [],
+    "TLT/" : [],
+    "DIA/" : [],
+    "FXI/" : [],
+    "FDN/" : [],
+    "EEM/" : [],
+    "SPHB/" : [],
+    "IYR/" : [],
+    "MDY/" : [],
+    "IEF/" : [],
+    # "XLF/" : [],
+    "FNGS/" : [],
+    "GDX/" : [],
+    "GDXJ/" : [],
+    "XLE/" : [],
+    "IEO/" : []
 }
 maxPercentDict = {
-    "SOXX/" : [],
+    "SOXX/" : [], 
     "QQQ/" : [],
-    "FNGS/" : []
+    # "FNGS/" : [],
+    "SPY/" : [],
+    "XLF/" : [],
+    "VGT/" : [],
+    "VTWO/" : [],
+    "XBI/" : [],
+    "TLT/" : [],
+    "DIA/" : [],
+    "FXI/" : [],
+    "FDN/" : [],
+    "EEM/" : [],
+    "SPHB/" : [],
+    "IYR/" : [],
+    "MDY/" : [],
+    "IEF/" : [],
+    # "XLF/" : [],
+    "FNGS/" : [],
+    "GDX/" : [],
+    "GDXJ/" : [],
+    "XLE/" : [],
+    "IEO/" : []
 }
 
 datesDict = {
     "SOXX/" : [],
     "QQQ/" : [],
-    "FNGS/" : []
+    # "FNGS/" : [],
+    "SPY/" : [],
+    "XLF/" : [],
+    "VGT/" : [],
+    "VTWO/" : [],
+    "XBI/" : [],
+    "TLT/" : [],
+    "DIA/" : [],
+    "FXI/" : [],
+    "FDN/" : [],
+    "EEM/" : [],
+    "SPHB/" : [],
+    "IYR/" : [],
+    "MDY/" : [],
+    "IEF/" : [],
+    # "XLF/" : [],
+    "FNGS/" : [],
+    "GDX/" : [],
+    "GDXJ/" : [],
+    "XLE/" : [],
+    "IEO/" : []
 }
 
 thresholdReturnsDict = {
-    "SOXX/" : [],
+    "SOXX/" : [], 
     "QQQ/" : [],
-    "FNGS/" : []
+    # "FNGS/" : [],
+    "SPY/" : [],
+    "XLF/" : [],
+    "VGT/" : [],
+    "VTWO/" : [],
+    "XBI/" : [],
+    "TLT/" : [],
+    "DIA/" : [],
+    "FXI/" : [],
+    "FDN/" : [],
+    "EEM/" : [],
+    "SPHB/" : [],
+    "IYR/" : [],
+    "MDY/" : [],
+    "IEF/" : [],
+    # "XLF/" : [],
+    "FNGS/" : [],
+    "GDX/" : [],
+    "GDXJ/" : [],
+    "XLE/" : [],
+    "IEO/" : []
 }
 
 def concatDates(dateIndices, dates):
@@ -60,6 +201,14 @@ def concatDates(dateIndices, dates):
 for ticker in tickerList:
     fileList = os.listdir(ticker)
     startDate = "2021-01-01"
+    match ticker:
+        case "FNGS/":
+            startDate = max(startDate, "2021-08-17")
+        case "IEO/":
+            startDate = max(startDate, "2021-11-09")
+        case _:
+            pass
+
     startIndex = next(x for x, val in enumerate(fileList) if val >= startDate)
     fileList = fileList[startIndex:]
     previousClose = -1
