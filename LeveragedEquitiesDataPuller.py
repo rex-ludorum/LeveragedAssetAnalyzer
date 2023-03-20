@@ -30,7 +30,9 @@ while iterDate < todayDate:
     for ticker in tickerList:
         if (ticker == "BULZ/" or ticker == "BERZ/") and iterDate.strftime('%Y-%m-%d') < "2021-08-18":
             continue
-        if (ticker == "OILU/" or ticker == "OILD/" or ticker == "IEO/") and iterDate.strftime('%Y-%m-%d') < "2021-11-09":
+        if (ticker == "OILU/" or ticker == "OILD/") and iterDate.strftime('%Y-%m-%d') < "2021-11-09":
+            continue
+        if (ticker == "IEO/") and iterDate.strftime('%Y-%m-%d') < "2021-11-08":
             continue
         specificUrl = urljoin(baseUrl, ticker)
         if iterDate.isoweekday() in set((6, 7)):
