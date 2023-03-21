@@ -200,7 +200,7 @@ def concatDates(dateIndices, dates):
 
 for ticker in tickerList:
     fileList = os.listdir(ticker)
-    startDate = "2023-03-01"
+    startDate = "2021-01-01"
     match ticker:
         case "FNGS/":
             startDate = max(startDate, "2021-08-17")
@@ -263,6 +263,12 @@ for ticker, returnList in returnPercentDict.items():
     print("Dollar-weighted return excluding losses: " + str(round(decimal.Decimal(reduce(operator.mul, map(lambda x : max(x, 1), returnList), 1)), DECIMAL_PLACES)))
     print("Average percent return: " + str(round(decimal.Decimal(sum(returnList) / len(returnList)), DECIMAL_PLACES)))
     print("Win percent on closes: " + str(round(decimal.Decimal(sum(1 for i in returnList if i >= 1) / len(returnList) * 100), DECIMAL_PLACES)))
+    posPremarketReturns = [x for idx, x in enumerate(returnList) if premarketPercentDict[ticker][idx] >= 0]
+    print("Average percent return for positive premarkets: " + str(round(decimal.Decimal(sum(posPremarketReturns) / len(posPremarketReturns)), DECIMAL_PLACES)))
+    print("Win percent on closes for positive premarkets: " + str(round(decimal.Decimal(sum(1 for i in posPremarketReturns if i >= 1) / len(posPremarketReturns) * 100), DECIMAL_PLACES)))
+    negPremarketReturns = [x for idx, x in enumerate(returnList) if premarketPercentDict[ticker][idx] < 0]
+    print("Average percent return for negative premarkets: " + str(round(decimal.Decimal(sum(negPremarketReturns) / len(negPremarketReturns)), DECIMAL_PLACES)))
+    print("Win percent on closes for negative premarkets: " + str(round(decimal.Decimal(sum(1 for i in negPremarketReturns if i >= 1) / len(negPremarketReturns) * 100), DECIMAL_PLACES)))
     print("Min percent return on closes: " + str(round(decimal.Decimal(min(returnList)), DECIMAL_PLACES)))
     print("Max percent return on closes: " + str(round(decimal.Decimal(max(returnList)), DECIMAL_PLACES)))
     maxList = maxPercentDict[ticker]
