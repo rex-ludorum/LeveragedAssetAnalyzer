@@ -17,7 +17,7 @@ upTickerDict = {
     "QQQ/" : "TQQQ/",
     # "FNGS/" : "FNGU/",
     "SPY/" : "SPXL/",
-    "XLF/" : "FAS/",
+    # "XLF/" : "FAS/",
     "VGT/" : "TECL/",
     "VTWO/" : "TNA/",
     "XBI/" : "LABU/",
@@ -30,7 +30,7 @@ upTickerDict = {
     "IYR/" : "DRN/",
     "MDY/" : "UMDD/",
     "IEF/" : "TYD/",
-    # "XLF/" : "BNKU/",
+    "XLF/" : "BNKU/",
     "FNGS/" : "BULZ/",
     "GDX/" : "GDXU/",
     "GDXJ/" : "GDXU/",
@@ -42,7 +42,7 @@ downTickerDict = {
     "QQQ/" : "SQQQ/",
     # "FNGS/" : "FNGD/",
     "SPY/" : "SPXS/",
-    "XLF/" : "FAZ/",
+    # "XLF/" : "FAZ/",
     "VGT/" : "TECS/",
     "VTWO/" : "TZA/",
     "XBI/" : "LABD/",
@@ -55,7 +55,7 @@ downTickerDict = {
     "IYR/" : "DRV/",
     "MDY/" : "SMDD/",
     "IEF/" : "TYO/",
-    # "XLF/" : "BNKD/",
+    "XLF/" : "BNKD/",
     "FNGS/" : "BERZ/",
     "GDX/" : "GDXD/",
     "GDXJ/" : "GDXD/",
@@ -114,7 +114,7 @@ returnPercentDict = {
     "IEO/" : []
 }
 maxPercentDict = {
-    "SOXX/" : [], 
+    "SOXX/" : [],
     "QQQ/" : [],
     # "FNGS/" : [],
     "SPY/" : [],
@@ -166,7 +166,7 @@ datesDict = {
 }
 
 thresholdReturnsDict = {
-    "SOXX/" : [], 
+    "SOXX/" : [],
     "QQQ/" : [],
     # "FNGS/" : [],
     "SPY/" : [],
@@ -200,12 +200,12 @@ def concatDates(dateIndices, dates):
 
 for ticker in tickerList:
     fileList = os.listdir(ticker)
-    startDate = "2021-01-01"
+    startDate = "2023-03-01"
     match ticker:
         case "FNGS/":
             startDate = max(startDate, "2021-08-17")
         case "IEO/":
-            startDate = max(startDate, "2021-11-09")
+            startDate = max(startDate, "2021-11-08")
         case _:
             pass
 
