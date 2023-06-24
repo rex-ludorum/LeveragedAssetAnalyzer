@@ -191,6 +191,8 @@ thresholdReturnsDict = {
     "IEO/" : []
 }
 
+baseDir = "LeveragedAssetAnalyzer/"
+
 def concatDates(dateIndices, dates):
     ret = dates[dateIndices[0]]
     for idx in dateIndices[1:]:
@@ -199,7 +201,7 @@ def concatDates(dateIndices, dates):
     return ret
 
 for ticker in tickerList:
-    fileList = os.listdir(ticker)
+    fileList = os.listdir(baseDir + ticker)
     startDate = "2021-01-01"
     match ticker:
         case "FNGS/":
@@ -213,12 +215,12 @@ for ticker in tickerList:
     fileList = fileList[startIndex:]
     previousClose = -1
 
-    with open(ticker + fileList[0], "r") as fileReader:
+    with open(baseDir+ ticker + fileList[0], "r") as fileReader:
         data = json.load(fileReader)
         previousClose = data["close"]
     fileList.pop(0)
     for file in fileList:
-        with open(ticker + file, "r") as fileReader:
+        with open(baseDir + ticker + file, "r") as fileReader:
             data = json.load(fileReader)
 
             if 'preMarket' not in data:
@@ -228,10 +230,10 @@ for ticker in tickerList:
             nextPreviousClose = data["close"]
             premarketPercentDict[ticker].append(100 * (data["preMarket"] - previousClose) / previousClose)
             if data["preMarket"] >= previousClose:
-                with open(upTickerDict[ticker] + file, "r") as leveragedFileReader:
+                with open(baseDir + upTickerDict[ticker] + file, "r") as leveragedFileReader:
                     data = json.load(leveragedFileReader)
             else:
-                with open(downTickerDict[ticker] + file, "r") as leveragedFileReader:
+                with open(baseDir + downTickerDict[ticker] + file, "r") as leveragedFileReader:
                     data = json.load(leveragedFileReader)
             returnAmount = data["close"] - data["open"]
             maxAmount = data["high"] - data["open"]
