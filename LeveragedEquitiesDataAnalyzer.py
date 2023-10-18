@@ -9,15 +9,12 @@ from matplotlib.ticker import FormatStrFormatter
 
 DECIMAL_PLACES = 4
 
-tickerList = ["SOXX/", "QQQ/", "FNGS/", "SPY/", "XLF/", "VGT/", "VTWO/", "XBI/", "TLT/", "DIA/", "FXI/", "FDN/", "EEM/", "SPHB/", "IYR/", "MDY/", "IEF/", "GDX/", "GDXJ/", "XLE/",
-	"IEO/"]
+tickerList = ["SOXX/", "QQQ/", "FNGS/", "SPY/", "XLF/", "VGT/", "VTWO/", "XBI/", "TLT/", "DIA/", "FXI/", "FDN/", "EEM/", "SPHB/", "IYR/", "MDY/", "IEF/", "GDX/", "GDXJ/", "XLE/", "IEO/"]
 
 upTickerDict = {
-	"SOXX/" : "SOXL/", 
+	"SOXX/" : "SOXL/",
 	"QQQ/" : "TQQQ/",
-	# "FNGS/" : "FNGU/",
 	"SPY/" : "SPXL/",
-	# "XLF/" : "FAS/",
 	"VGT/" : "TECL/",
 	"VTWO/" : "TNA/",
 	"XBI/" : "LABU/",
@@ -30,20 +27,25 @@ upTickerDict = {
 	"IYR/" : "DRN/",
 	"MDY/" : "UMDD/",
 	"IEF/" : "TYD/",
-	"XLF/" : "BNKU/",
-	"FNGS/" : "BULZ/",
+	# try two different sets of premarket data for gold
 	"GDX/" : "GDXU/",
 	"GDXJ/" : "GDXU/",
 	"XLE/" : "NRGU/",
 	"IEO/" : "OILU/",
+	# TODO: handle both cases together?
+	# FNG* and BULZ/BERZ are all FANG assets
+	"FNGS/" : "FNGU/",
+	# "FNGS/" : "BULZ/",
+	# FA* tracks large-cap financial companies while BNK* tracks US large banks
+	# however, they perform similarly
+	"XLF/" : "FAS/",
+	# "XLF/" : "BNKU/",
 }
 
 downTickerDict = {
-	"SOXX/" : "SOXS/", 
+	"SOXX/" : "SOXS/",
 	"QQQ/" : "SQQQ/",
-	# "FNGS/" : "FNGD/",
 	"SPY/" : "SPXS/",
-	# "XLF/" : "FAZ/",
 	"VGT/" : "TECS/",
 	"VTWO/" : "TZA/",
 	"XBI/" : "LABD/",
@@ -56,18 +58,19 @@ downTickerDict = {
 	"IYR/" : "DRV/",
 	"MDY/" : "SMDD/",
 	"IEF/" : "TYO/",
-	"XLF/" : "BNKD/",
-	"FNGS/" : "BERZ/",
 	"GDX/" : "GDXD/",
 	"GDXJ/" : "GDXD/",
 	"XLE/" : "NRGD/",
 	"IEO/" : "OILD/",
+	"FNGS/" : "FNGD/",
+	# "FNGS/" : "BERZ/",
+	"XLF/" : "FAZ/",
+	# "XLF/" : "BNKD/",
 }
 
 premarketPercentDict = {
-	"SOXX/" : [], 
+	"SOXX/" : [],
 	"QQQ/" : [],
-	# "FNGS/" : [],
 	"SPY/" : [],
 	"XLF/" : [],
 	"VGT/" : [],
@@ -82,7 +85,6 @@ premarketPercentDict = {
 	"IYR/" : [],
 	"MDY/" : [],
 	"IEF/" : [],
-	# "XLF/" : [],
 	"FNGS/" : [],
 	"GDX/" : [],
 	"GDXJ/" : [],
@@ -91,9 +93,8 @@ premarketPercentDict = {
 }
 
 returnPercentDict = {
-	"SOXX/" : [], 
+	"SOXX/" : [],
 	"QQQ/" : [],
-	# "FNGS/" : [],
 	"SPY/" : [],
 	"XLF/" : [],
 	"VGT/" : [],
@@ -108,7 +109,6 @@ returnPercentDict = {
 	"IYR/" : [],
 	"MDY/" : [],
 	"IEF/" : [],
-	# "XLF/" : [],
 	"FNGS/" : [],
 	"GDX/" : [],
 	"GDXJ/" : [],
@@ -119,7 +119,6 @@ returnPercentDict = {
 maxPercentDict = {
 	"SOXX/" : [],
 	"QQQ/" : [],
-	# "FNGS/" : [],
 	"SPY/" : [],
 	"XLF/" : [],
 	"VGT/" : [],
@@ -134,7 +133,6 @@ maxPercentDict = {
 	"IYR/" : [],
 	"MDY/" : [],
 	"IEF/" : [],
-	# "XLF/" : [],
 	"FNGS/" : [],
 	"GDX/" : [],
 	"GDXJ/" : [],
@@ -145,7 +143,6 @@ maxPercentDict = {
 datesDict = {
 	"SOXX/" : [],
 	"QQQ/" : [],
-	# "FNGS/" : [],
 	"SPY/" : [],
 	"XLF/" : [],
 	"VGT/" : [],
@@ -160,7 +157,6 @@ datesDict = {
 	"IYR/" : [],
 	"MDY/" : [],
 	"IEF/" : [],
-	# "XLF/" : [],
 	"FNGS/" : [],
 	"GDX/" : [],
 	"GDXJ/" : [],
@@ -171,7 +167,6 @@ datesDict = {
 thresholdReturnsDict = {
 	"SOXX/" : [],
 	"QQQ/" : [],
-	# "FNGS/" : [],
 	"SPY/" : [],
 	"XLF/" : [],
 	"VGT/" : [],
@@ -186,7 +181,6 @@ thresholdReturnsDict = {
 	"IYR/" : [],
 	"MDY/" : [],
 	"IEF/" : [],
-	# "XLF/" : [],
 	"FNGS/" : [],
 	"GDX/" : [],
 	"GDXJ/" : [],
@@ -194,6 +188,7 @@ thresholdReturnsDict = {
 	"IEO/" : [],
 }
 
+# concatenate a list of daets into a string for printing
 def concatDates(dateIndices, dates):
 	ret = dates[dateIndices[0]]
 	for idx in dateIndices[1:]:
@@ -203,12 +198,13 @@ def concatDates(dateIndices, dates):
 
 for ticker in tickerList:
 	fileList = os.listdir(ticker)
-	startDate = "2021-01-01"
+	startDate = "2023-08-01"
 	match ticker:
+		# start later on these assets b/c premarket data goes back earlier than the return data
 		case "FNGS/":
-			startDate = max(startDate, "2021-08-17")
-		case "IEO/":
-			startDate = max(startDate, "2021-11-08")
+			# only for BULZ/BERZ, FNGD and FNGU have complete data
+			if upTickerDict[ticker] == "BULZ/":
+				startDate = max(startDate, "2021-08-17")
 		case _:
 			pass
 
@@ -263,7 +259,7 @@ for ticker, returnList in returnPercentDict.items():
 	fig, ax = plt.subplots(2, 3, figsize=(19, 8))
 	print(ticker)
 	print("Dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, returnList, 1)), DECIMAL_PLACES)))
-	print("Dollar-weighted return excluding losses: " + str(round(decimal.Decimal(reduce(operator.mul, map(lambda x : max(x, 1), returnList), 1)), DECIMAL_PLACES)))
+	# print("Dollar-weighted return excluding losses: " + str(round(decimal.Decimal(reduce(operator.mul, map(lambda x : max(x, 1), returnList), 1)), DECIMAL_PLACES)))
 	print("Average percent return: " + str(round(decimal.Decimal(sum(returnList) / len(returnList)), DECIMAL_PLACES)))
 	print("Win percent on closes: " + str(round(decimal.Decimal(sum(1 for i in returnList if i >= 1) / len(returnList) * 100), DECIMAL_PLACES)))
 	posPremarketReturns = [x for idx, x in enumerate(returnList) if premarketPercentDict[ticker][idx] >= 0]
@@ -272,15 +268,17 @@ for ticker, returnList in returnPercentDict.items():
 	negPremarketReturns = [x for idx, x in enumerate(returnList) if premarketPercentDict[ticker][idx] < 0]
 	print("Average percent return for negative premarkets: " + str(round(decimal.Decimal(sum(negPremarketReturns) / len(negPremarketReturns)), DECIMAL_PLACES)))
 	print("Win percent on closes for negative premarkets: " + str(round(decimal.Decimal(sum(1 for i in negPremarketReturns if i >= 1) / len(negPremarketReturns) * 100), DECIMAL_PLACES)))
-	print("Min percent return on closes: " + str(round(decimal.Decimal(min(returnList)), DECIMAL_PLACES)))
-	print("Max percent return on closes: " + str(round(decimal.Decimal(max(returnList)), DECIMAL_PLACES)))
+	minIndex = np.where(returnList == np.min(returnList))[0]
+	print("Min percent return on closes: " + str(round(decimal.Decimal(min(returnList)), DECIMAL_PLACES)) + " on " + concatDates(minIndex, datesDict[ticker]))
+	maxIndex = np.where(returnList == np.max(returnList))[0]
+	print("Max percent return on closes: " + str(round(decimal.Decimal(max(returnList)), DECIMAL_PLACES)) + " on " + concatDates(maxIndex, datesDict[ticker]))
 	maxList = maxPercentDict[ticker]
-	print("Max dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, maxList, 1)), DECIMAL_PLACES)))
-	print("Average max percent return: " + str(round(decimal.Decimal(sum(maxList) / len(maxList)), DECIMAL_PLACES)))
-	minIndex = np.where(maxList == np.min(maxList))[0]
-	print("Min max percent return: " + str(round(decimal.Decimal(min(maxList)), DECIMAL_PLACES)) + " on " + concatDates(minIndex, datesDict[ticker]))
-	maxIndex = np.where(maxList == np.max(maxList))[0]
-	print("Max max percent return: " + str(round(decimal.Decimal(max(maxList)), DECIMAL_PLACES)) + " on " + concatDates(maxIndex, datesDict[ticker]))
+	# print("Max dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, maxList, 1)), DECIMAL_PLACES)))
+	# print("Average max percent return: " + str(round(decimal.Decimal(sum(maxList) / len(maxList)), DECIMAL_PLACES)))
+	# minIndex = np.where(maxList == np.min(maxList))[0]
+	# print("Min max percent return: " + str(round(decimal.Decimal(min(maxList)), DECIMAL_PLACES)) + " on " + concatDates(minIndex, datesDict[ticker]))
+	# maxIndex = np.where(maxList == np.max(maxList))[0]
+	# print("Max max percent return: " + str(round(decimal.Decimal(max(maxList)), DECIMAL_PLACES)) + " on " + concatDates(maxIndex, datesDict[ticker]))
 
 	counts, bins, patches = ax[0][0].hist(returnList, edgecolor='black')
 	ax[0][0].set_title("Total returns")
