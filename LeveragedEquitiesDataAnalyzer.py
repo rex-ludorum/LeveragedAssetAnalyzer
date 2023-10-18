@@ -198,7 +198,7 @@ def concatDates(dateIndices, dates):
 
 for ticker in tickerList:
 	fileList = os.listdir(ticker)
-	startDate = "2023-08-01"
+	startDate = "2021-01-01"
 	match ticker:
 		# start later on these assets b/c premarket data goes back earlier than the return data
 		case "FNGS/":
@@ -255,23 +255,49 @@ for ticker in tickerList:
 
 thresholds = [x / 100 for x in thresholds]
 
+dolWeightedReturns = {}
+avgPctReturns = {}
+winPctsOnCloses = {}
+avgPosPremarkPctReturns = {}
+posPremarkWinPcts = {}
+avgNegPremarkPctReturns = {}
+negPremarkWinPcts = {}
+maxPercentRets = {}
+
 for ticker, returnList in returnPercentDict.items():
 	fig, ax = plt.subplots(2, 3, figsize=(19, 8))
 	print(ticker)
-	print("Dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, returnList, 1)), DECIMAL_PLACES)))
+	dollarWeightedReturn = round(decimal.Decimal(reduce(operator.mul, returnList, 1)), DECIMAL_PLACES)
+	print("Dollar-weighted return: " + str(dollarWeightedReturn))
+	dolWeightedReturns[ticker] = dollarWeightedReturn
 	# print("Dollar-weighted return excluding losses: " + str(round(decimal.Decimal(reduce(operator.mul, map(lambda x : max(x, 1), returnList), 1)), DECIMAL_PLACES)))
-	print("Average percent return: " + str(round(decimal.Decimal(sum(returnList) / len(returnList)), DECIMAL_PLACES)))
-	print("Win percent on closes: " + str(round(decimal.Decimal(sum(1 for i in returnList if i >= 1) / len(returnList) * 100), DECIMAL_PLACES)))
+	avgPctReturn = round(decimal.Decimal(sum(returnList) / len(returnList)), DECIMAL_PLACES)
+	print("Average percent return: " + str(avgPctReturn))
+	avgPctReturns[ticker] = avgPctReturn
+	winPctOnCloses = round(decimal.Decimal(sum(1 for i in returnList if i >= 1) / len(returnList) * 100), DECIMAL_PLACES)
+	print("Win percent on closes: " + str(winPctOnCloses))
+	winPctsOnCloses[ticker] = winPctOnCloses
 	posPremarketReturns = [x for idx, x in enumerate(returnList) if premarketPercentDict[ticker][idx] >= 0]
-	print("Average percent return for positive premarkets: " + str(round(decimal.Decimal(sum(posPremarketReturns) / len(posPremarketReturns)), DECIMAL_PLACES)))
-	print("Win percent on closes for positive premarkets: " + str(round(decimal.Decimal(sum(1 for i in posPremarketReturns if i >= 1) / len(posPremarketReturns) * 100), DECIMAL_PLACES)))
+	avgPosPremarkPctReturn = round(decimal.Decimal(sum(posPremarketReturns) / len(posPremarketReturns)), DECIMAL_PLACES)
+	print("Average percent return for positive premarkets: " + str(avgPosPremarkPctReturn))
+	avgPosPremarkPctReturns[ticker] = avgPosPremarkPctReturn
+	posPremarkWinPct = round(decimal.Decimal(sum(1 for i in posPremarketReturns if i >= 1) / len(posPremarketReturns) * 100), DECIMAL_PLACES)
+	print("Win percent on closes for positive premarkets: " + str(posPremarkWinPct))
+	posPremarkWinPcts[ticker] = posPremarkWinPct
 	negPremarketReturns = [x for idx, x in enumerate(returnList) if premarketPercentDict[ticker][idx] < 0]
-	print("Average percent return for negative premarkets: " + str(round(decimal.Decimal(sum(negPremarketReturns) / len(negPremarketReturns)), DECIMAL_PLACES)))
-	print("Win percent on closes for negative premarkets: " + str(round(decimal.Decimal(sum(1 for i in negPremarketReturns if i >= 1) / len(negPremarketReturns) * 100), DECIMAL_PLACES)))
+	avgNegPremarkPctReturn = round(decimal.Decimal(sum(negPremarketReturns) / len(negPremarketReturns)), DECIMAL_PLACES)
+	print("Average percent return for negative premarkets: " + str(avgNegPremarkPctReturn))
+	avgNegPremarkPctReturns[ticker] = avgNegPremarkPctReturn
+	negPremarkWinPct = round(decimal.Decimal(sum(1 for i in negPremarketReturns if i >= 1) / len(negPremarketReturns) * 100), DECIMAL_PLACES)
+	print("Win percent on closes for negative premarkets: " + str(negPremarkWinPct))
+	negPremarkWinPcts[ticker] = negPremarkWinPct
 	minIndex = np.where(returnList == np.min(returnList))[0]
 	print("Min percent return on closes: " + str(round(decimal.Decimal(min(returnList)), DECIMAL_PLACES)) + " on " + concatDates(minIndex, datesDict[ticker]))
 	maxIndex = np.where(returnList == np.max(returnList))[0]
-	print("Max percent return on closes: " + str(round(decimal.Decimal(max(returnList)), DECIMAL_PLACES)) + " on " + concatDates(maxIndex, datesDict[ticker]))
+	maxPercentRet = round(decimal.Decimal(max(returnList)), DECIMAL_PLACES)
+	print("Max percent return on closes: " + str(maxPercentRet) + " on " + concatDates(maxIndex, datesDict[ticker]))
+	print()
+	maxPercentRets[ticker] = maxPercentRet
 	maxList = maxPercentDict[ticker]
 	# print("Max dollar-weighted return: " + str(round(decimal.Decimal(reduce(operator.mul, maxList, 1)), DECIMAL_PLACES)))
 	# print("Average max percent return: " + str(round(decimal.Decimal(sum(maxList) / len(maxList)), DECIMAL_PLACES)))
@@ -348,4 +374,13 @@ for ticker, returnList in returnPercentDict.items():
 		hspace=0.3)
 	plt.suptitle(ticker[:-1])
 
+print("SUMMARY")
+print("Max dollar-weighted return: " + max(dolWeightedReturns, key=dolWeightedReturns.get) + " " + str(max(dolWeightedReturns.values())))
+print("Max average percent return: " + max(avgPctReturns, key=avgPctReturns.get) + " " + str(max(avgPctReturns.values())))
+print("Max win percent on closes: " + max(winPctsOnCloses, key=winPctsOnCloses.get) + " " + str(max(winPctsOnCloses.values())))
+print("Max average positive premarket percent return: " + max(avgPosPremarkPctReturns, key=avgPosPremarkPctReturns.get) + " " + str(max(avgPosPremarkPctReturns.values())))
+print("Max positive premarket win percent: " + max(posPremarkWinPcts, key=posPremarkWinPcts.get) + " " + str(max(posPremarkWinPcts.values())))
+print("Max average negative premarket percent return: " + max(avgNegPremarkPctReturns, key=avgNegPremarkPctReturns.get) + " " + str(max(avgNegPremarkPctReturns.values())))
+print("Max negative premarket win percent: " + max(negPremarkWinPcts, key=negPremarkWinPcts.get) + " " + str(max(negPremarkWinPcts.values())))
+print("Max maximum percent return: " + max(maxPercentRets, key=maxPercentRets.get) + " " + str(max(maxPercentRets.values())))
 plt.show()
