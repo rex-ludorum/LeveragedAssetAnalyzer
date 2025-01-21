@@ -67,6 +67,9 @@ while iterDate < todayDate:
 			masterJson = {}
 			with open("data/" + ticker[:-1], "r") as fileReader:
 				masterJson = json.load(fileReader)
+			if not masterJson:
+				print("Error reading data/" + ticker[:-1])
+				continue
 			masterJson[date] = data
 			with open("data/" + ticker[:-1], "w") as fileWriter:
 				fileWriter.write(json.dumps(masterJson, indent=2))
