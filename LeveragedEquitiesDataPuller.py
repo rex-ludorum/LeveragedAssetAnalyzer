@@ -10,15 +10,17 @@ from requests.compat import urljoin
 todayDate = datetime.datetime.now().date()
 # iterDate = todayDate - relativedelta.relativedelta(years=2)
 # date from which we are starting the collection
-iterDate = datetime.datetime.strptime("2023-10-14", "%Y-%m-%d").date()
+iterDate = datetime.datetime.strptime("2025-01-21", "%Y-%m-%d").date()
 
 BASE_URL = "https://api.polygon.io/v1/open-close/"
 
-TICKER_LIST = ["SOXX/", "SOXL/", "SOXS/", "QQQ/", "TQQQ/", "SQQQ/", "FNGS/", "FNGU/", "FNGD/", "SPY/", "SPXL/", "SPXS/", "XLF/", "FAS/",
+TICKER_LIST = [
+	"SOXX/", "SOXL/", "SOXS/", "QQQ/", "TQQQ/", "SQQQ/", "FNGS/", "FNGU/", "FNGD/", "SPY/", "SPXL/", "SPXS/", "XLF/", "FAS/",
 	"FAZ/", "VGT/", "TECL/", "TECS/", "VTWO/", "TNA/", "TZA/", "XBI/", "LABU/", "LABD/", "TLT/", "TMF/", "TMV/", "DIA/", "UDOW/",
 	"SDOW/", "FXI/", "YINN/", "YANG/", "FDN/", "WEBL/", "WEBS/", "EEM/", "EDC/", "EDZ/", "SPHB/", "HIBL/", "HIBS/", "IYR/", "DRN/",
-	"DRV/", "MDY/", "UMDD/", "SMDD/", "IEF/", "TYD/", "TYO/", "BNKU/", "BNKD/", "BULZ/", "BERZ/", "GDX/", "GDXJ/", "GDXU/", "GDXD/",
-	"XLE/", "NRGU/", "NRGD/", "IEO/", "OILU/", "OILD/"]
+	"DRV/", "MDY/", "UMDD/", "SMDD/", "IEF/", "TYD/", "TYO/", "BULZ/", "BERZ/", "GDX/", "GDXJ/", "GDXU/", "GDXD/", "XLE/", "IEO/",
+	"OILU/", "OILD/"
+]
 
 POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY")
 
