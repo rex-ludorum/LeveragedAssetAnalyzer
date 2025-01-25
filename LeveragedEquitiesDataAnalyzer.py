@@ -1,4 +1,3 @@
-import os
 import json
 import operator
 import decimal
@@ -9,186 +8,179 @@ from matplotlib.ticker import FormatStrFormatter
 
 DECIMAL_PLACES = 4
 
-tickerList = ["SOXX/", "QQQ/", "FNGS/", "SPY/", "XLF/", "VGT/", "VTWO/", "XBI/", "TLT/", "DIA/", "FXI/", "FDN/", "EEM/", "SPHB/", "IYR/", "MDY/", "IEF/", "GDX/", "GDXJ/", "XLE/", "IEO/"]
+tickerList = ["SOXX", "QQQ", "FNGS", "SPY", "XLF", "VGT", "VTWO", "XBI", "TLT", "DIA", "FXI", "FDN", "EEM", "SPHB", "IYR", "MDY", "IEF", "GDX", "GDXJ", "IEO"]
 
 upTickerDict = {
-	"SOXX/" : "SOXL/",
-	"QQQ/" : "TQQQ/",
-	"SPY/" : "SPXL/",
-	"VGT/" : "TECL/",
-	"VTWO/" : "TNA/",
-	"XBI/" : "LABU/",
-	"TLT/" : "TMF/",
-	"DIA/" : "UDOW/",
-	"FXI/" : "YINN/",
-	"FDN/" : "WEBL/",
-	"EEM/" : "EDC/",
-	"SPHB/" : "HIBL/",
-	"IYR/" : "DRN/",
-	"MDY/" : "UMDD/",
-	"IEF/" : "TYD/",
+	"SOXX" : "SOXL",
+	"QQQ" : "TQQQ",
+	"SPY" : "SPXL",
+	"VGT" : "TECL",
+	"VTWO" : "TNA",
+	"XBI" : "LABU",
+	"TLT" : "TMF",
+	"DIA" : "UDOW",
+	"FXI" : "YINN",
+	"FDN" : "WEBL",
+	"EEM" : "EDC",
+	"SPHB" : "HIBL",
+	"IYR" : "DRN",
+	"MDY" : "UMDD",
+	"IEF" : "TYD",
 	# try two different sets of premarket data for gold
-	"GDX/" : "GDXU/",
-	"GDXJ/" : "GDXU/",
-	"XLE/" : "NRGU/",
-	"IEO/" : "OILU/",
+	"GDX" : "GDXU",
+	"GDXJ" : "GDXU",
+	"IEO" : "OILU",
 	# TODO: handle both cases together?
 	# FNG* and BULZ/BERZ are all FANG assets
-	"FNGS/" : "FNGU/",
-	# "FNGS/" : "BULZ/",
+	"FNGS" : "FNGU",
+	# "FNGS" : "BULZ",
 	# FA* tracks large-cap financial companies while BNK* tracks US large banks
 	# however, they perform similarly
-	"XLF/" : "FAS/",
-	# "XLF/" : "BNKU/",
+	"XLF" : "FAS",
+	# "XLF" : "BNKU",
 }
 
 downTickerDict = {
-	"SOXX/" : "SOXS/",
-	"QQQ/" : "SQQQ/",
-	"SPY/" : "SPXS/",
-	"VGT/" : "TECS/",
-	"VTWO/" : "TZA/",
-	"XBI/" : "LABD/",
-	"TLT/" : "TMV/",
-	"DIA/" : "SDOW/",
-	"FXI/" : "YANG/",
-	"FDN/" : "WEBS/",
-	"EEM/" : "EDZ/",
-	"SPHB/" : "HIBS/",
-	"IYR/" : "DRV/",
-	"MDY/" : "SMDD/",
-	"IEF/" : "TYO/",
-	"GDX/" : "GDXD/",
-	"GDXJ/" : "GDXD/",
-	"XLE/" : "NRGD/",
-	"IEO/" : "OILD/",
-	"FNGS/" : "FNGD/",
-	# "FNGS/" : "BERZ/",
-	"XLF/" : "FAZ/",
-	# "XLF/" : "BNKD/",
+	"SOXX" : "SOXS",
+	"QQQ" : "SQQQ",
+	"SPY" : "SPXS",
+	"VGT" : "TECS",
+	"VTWO" : "TZA",
+	"XBI" : "LABD",
+	"TLT" : "TMV",
+	"DIA" : "SDOW",
+	"FXI" : "YANG",
+	"FDN" : "WEBS",
+	"EEM" : "EDZ",
+	"SPHB" : "HIBS",
+	"IYR" : "DRV",
+	"MDY" : "SMDD",
+	"IEF" : "TYO",
+	"GDX" : "GDXD",
+	"GDXJ" : "GDXD",
+	"IEO" : "OILD",
+	"FNGS" : "FNGD",
+	# "FNGS" : "BERZ",
+	"XLF" : "FAZ",
+	# "XLF" : "BNKD",
 }
 
 premarketPercentDict = {
-	"SOXX/" : [],
-	"QQQ/" : [],
-	"SPY/" : [],
-	"XLF/" : [],
-	"VGT/" : [],
-	"VTWO/" : [],
-	"XBI/" : [],
-	"TLT/" : [],
-	"DIA/" : [],
-	"FXI/" : [],
-	"FDN/" : [],
-	"EEM/" : [],
-	"SPHB/" : [],
-	"IYR/" : [],
-	"MDY/" : [],
-	"IEF/" : [],
-	"FNGS/" : [],
-	"GDX/" : [],
-	"GDXJ/" : [],
-	"XLE/" : [],
-	"IEO/" : [],
+	"SOXX" : [],
+	"QQQ" : [],
+	"SPY" : [],
+	"XLF" : [],
+	"VGT" : [],
+	"VTWO" : [],
+	"XBI" : [],
+	"TLT" : [],
+	"DIA" : [],
+	"FXI" : [],
+	"FDN" : [],
+	"EEM" : [],
+	"SPHB" : [],
+	"IYR" : [],
+	"MDY" : [],
+	"IEF" : [],
+	"FNGS" : [],
+	"GDX" : [],
+	"GDXJ" : [],
+	"IEO" : [],
 }
 
 returnPercentDict = {
-	"SOXX/" : [],
-	"QQQ/" : [],
-	"SPY/" : [],
-	"XLF/" : [],
-	"VGT/" : [],
-	"VTWO/" : [],
-	"XBI/" : [],
-	"TLT/" : [],
-	"DIA/" : [],
-	"FXI/" : [],
-	"FDN/" : [],
-	"EEM/" : [],
-	"SPHB/" : [],
-	"IYR/" : [],
-	"MDY/" : [],
-	"IEF/" : [],
-	"FNGS/" : [],
-	"GDX/" : [],
-	"GDXJ/" : [],
-	"XLE/" : [],
-	"IEO/" : [],
+	"SOXX" : [],
+	"QQQ" : [],
+	"SPY" : [],
+	"XLF" : [],
+	"VGT" : [],
+	"VTWO" : [],
+	"XBI" : [],
+	"TLT" : [],
+	"DIA" : [],
+	"FXI" : [],
+	"FDN" : [],
+	"EEM" : [],
+	"SPHB" : [],
+	"IYR" : [],
+	"MDY" : [],
+	"IEF" : [],
+	"FNGS" : [],
+	"GDX" : [],
+	"GDXJ" : [],
+	"IEO" : [],
 }
 
 maxPercentDict = {
-	"SOXX/" : [],
-	"QQQ/" : [],
-	"SPY/" : [],
-	"XLF/" : [],
-	"VGT/" : [],
-	"VTWO/" : [],
-	"XBI/" : [],
-	"TLT/" : [],
-	"DIA/" : [],
-	"FXI/" : [],
-	"FDN/" : [],
-	"EEM/" : [],
-	"SPHB/" : [],
-	"IYR/" : [],
-	"MDY/" : [],
-	"IEF/" : [],
-	"FNGS/" : [],
-	"GDX/" : [],
-	"GDXJ/" : [],
-	"XLE/" : [],
-	"IEO/" : [],
+	"SOXX" : [],
+	"QQQ" : [],
+	"SPY" : [],
+	"XLF" : [],
+	"VGT" : [],
+	"VTWO" : [],
+	"XBI" : [],
+	"TLT" : [],
+	"DIA" : [],
+	"FXI" : [],
+	"FDN" : [],
+	"EEM" : [],
+	"SPHB" : [],
+	"IYR" : [],
+	"MDY" : [],
+	"IEF" : [],
+	"FNGS" : [],
+	"GDX" : [],
+	"GDXJ" : [],
+	"IEO" : [],
 }
 
 datesDict = {
-	"SOXX/" : [],
-	"QQQ/" : [],
-	"SPY/" : [],
-	"XLF/" : [],
-	"VGT/" : [],
-	"VTWO/" : [],
-	"XBI/" : [],
-	"TLT/" : [],
-	"DIA/" : [],
-	"FXI/" : [],
-	"FDN/" : [],
-	"EEM/" : [],
-	"SPHB/" : [],
-	"IYR/" : [],
-	"MDY/" : [],
-	"IEF/" : [],
-	"FNGS/" : [],
-	"GDX/" : [],
-	"GDXJ/" : [],
-	"XLE/" : [],
-	"IEO/" : [],
+	"SOXX" : [],
+	"QQQ" : [],
+	"SPY" : [],
+	"XLF" : [],
+	"VGT" : [],
+	"VTWO" : [],
+	"XBI" : [],
+	"TLT" : [],
+	"DIA" : [],
+	"FXI" : [],
+	"FDN" : [],
+	"EEM" : [],
+	"SPHB" : [],
+	"IYR" : [],
+	"MDY" : [],
+	"IEF" : [],
+	"FNGS" : [],
+	"GDX" : [],
+	"GDXJ" : [],
+	"IEO" : [],
 }
 
 thresholdReturnsDict = {
-	"SOXX/" : [],
-	"QQQ/" : [],
-	"SPY/" : [],
-	"XLF/" : [],
-	"VGT/" : [],
-	"VTWO/" : [],
-	"XBI/" : [],
-	"TLT/" : [],
-	"DIA/" : [],
-	"FXI/" : [],
-	"FDN/" : [],
-	"EEM/" : [],
-	"SPHB/" : [],
-	"IYR/" : [],
-	"MDY/" : [],
-	"IEF/" : [],
-	"FNGS/" : [],
-	"GDX/" : [],
-	"GDXJ/" : [],
-	"XLE/" : [],
-	"IEO/" : [],
+	"SOXX" : [],
+	"QQQ" : [],
+	"SPY" : [],
+	"XLF" : [],
+	"VGT" : [],
+	"VTWO" : [],
+	"XBI" : [],
+	"TLT" : [],
+	"DIA" : [],
+	"FXI" : [],
+	"FDN" : [],
+	"EEM" : [],
+	"SPHB" : [],
+	"IYR" : [],
+	"MDY" : [],
+	"IEF" : [],
+	"FNGS" : [],
+	"GDX" : [],
+	"GDXJ" : [],
+	"IEO" : [],
 }
 
-# concatenate a list of daets into a string for printing
+# concatenate a list of dates into a string for printing
 def concatDates(dateIndices, dates):
 	ret = dates[dateIndices[0]]
 	for idx in dateIndices[1:]:
@@ -197,8 +189,16 @@ def concatDates(dateIndices, dates):
 	return ret
 
 for ticker in tickerList:
-	fileList = os.listdir(ticker)
+	previousClose = -1
+	previousDate = ""
+
 	startDate = "2021-01-01"
+
+	with open("data/" + ticker, "r") as fileReader, open("data/" + upTickerDict[ticker], "r") as upFileReader, open("data/" + downTickerDict[ticker], "r") as downFileReader:
+		data = json.load(fileReader)
+		upData = json.load(upFileReader)
+		downData = json.load(downFileReader)
+
 	match ticker:
 		# start later on these assets b/c premarket data goes back earlier than the return data
 		case "FNGS/":
@@ -208,36 +208,28 @@ for ticker in tickerList:
 		case _:
 			pass
 
-	startIndex = next(x for x, val in enumerate(fileList) if val >= startDate)
-	fileList = fileList[startIndex:]
-	previousClose = -1
+	for date, value in data.items():
+		if date < startDate:
+			continue
 
-	with open(ticker + fileList[0], "r") as fileReader:
-		data = json.load(fileReader)
-		previousClose = data["close"]
-	fileList.pop(0)
-	for file in fileList:
-		with open(ticker + file, "r") as fileReader:
-			data = json.load(fileReader)
-
-			if 'preMarket' not in data:
-				previousClose = data["close"]
-				continue
-
-			nextPreviousClose = data["close"]
-			premarketPercentDict[ticker].append(100 * (data["preMarket"] - previousClose) / previousClose)
-			if data["preMarket"] >= previousClose:
-				with open(upTickerDict[ticker] + file, "r") as leveragedFileReader:
-					data = json.load(leveragedFileReader)
-			else:
-				with open(downTickerDict[ticker] + file, "r") as leveragedFileReader:
-					data = json.load(leveragedFileReader)
-			returnAmount = data["close"] - data["open"]
-			maxAmount = data["high"] - data["open"]
-			returnPercentDict[ticker].append(1 + returnAmount / data["open"])
-			maxPercentDict[ticker].append(1 + maxAmount / data["open"])
-			previousClose = nextPreviousClose
-			datesDict[ticker].append(file)
+		if previousClose == -1:
+			previousClose = value['close']
+			continue
+		if previousDate:
+			assert(date > previousDate)
+		previousDate = date
+		nextPreviousClose = value["close"]
+		premarketPercentDict[ticker].append(100 * (value["preMarket"] - previousClose) / previousClose)
+		if value["preMarket"] >= previousClose:
+			value = upData[date]
+		else:
+			value = downData[date]
+		returnAmount = value["close"] - value["open"]
+		maxAmount = value["high"] - value["open"]
+		returnPercentDict[ticker].append(1 + returnAmount / value["open"])
+		maxPercentDict[ticker].append(1 + maxAmount / value["open"])
+		previousClose = nextPreviousClose
+		datesDict[ticker].append(date)
 
 thresholds = list(range(0, 500, 25))
 thresholds.pop(0)
@@ -252,6 +244,9 @@ for ticker in tickerList:
 			if abs(premarket * 100) >= threshold:
 				filteredReturns.append(returnPercent)
 		thresholdReturnsDict[ticker].append(filteredReturns)
+
+	while not thresholdReturnsDict[ticker][-1]:
+		thresholdReturnsDict[ticker].pop(-1)
 
 thresholds = [x / 100 for x in thresholds]
 
@@ -339,7 +334,7 @@ for ticker, returnList in returnPercentDict.items():
 		percent = '{:.1%}'.format(float(count) / counts.sum())
 		ax[0][2].annotate(percent, xy=(x, 0), fontsize=8, xycoords=('data', 'axes fraction'), xytext=(0, -28), textcoords='offset points', va='top', ha='center')
 
-	thresholdReturnsDict[ticker] = [ele for ele in thresholdReturnsDict[ticker] if ele != []]
+	# thresholdReturnsDict[ticker] = [ele for ele in thresholdReturnsDict[ticker] if ele != []]
 	nonemptyThresholds = len(thresholdReturnsDict[ticker])
 	totalReturns = list(map(lambda x : reduce(operator.mul, x, 1), thresholdReturnsDict[ticker]))
 	ax[1][0].plot(thresholds[0:nonemptyThresholds], totalReturns)

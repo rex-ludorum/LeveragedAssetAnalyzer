@@ -10,16 +10,16 @@ from requests.compat import urljoin
 todayDate = datetime.datetime.now().date()
 # iterDate = todayDate - relativedelta.relativedelta(years=2)
 # date from which we are starting the collection
-iterDate = datetime.datetime.strptime("2025-01-21", "%Y-%m-%d").date()
+iterDate = datetime.datetime.strptime("2025-01-23", "%Y-%m-%d").date()
 
 BASE_URL = "https://api.polygon.io/v1/open-close/"
 
 TICKER_LIST = [
-	"SOXX/", "SOXL/", "SOXS/", "QQQ/", "TQQQ/", "SQQQ/", "FNGS/", "FNGU/", "FNGD/", "SPY/", "SPXL/", "SPXS/", "XLF/", "FAS/",
-	"FAZ/", "VGT/", "TECL/", "TECS/", "VTWO/", "TNA/", "TZA/", "XBI/", "LABU/", "LABD/", "TLT/", "TMF/", "TMV/", "DIA/", "UDOW/",
-	"SDOW/", "FXI/", "YINN/", "YANG/", "FDN/", "WEBL/", "WEBS/", "EEM/", "EDC/", "EDZ/", "SPHB/", "HIBL/", "HIBS/", "IYR/", "DRN/",
-	"DRV/", "MDY/", "UMDD/", "SMDD/", "IEF/", "TYD/", "TYO/", "BULZ/", "BERZ/", "GDX/", "GDXJ/", "GDXU/", "GDXD/", "XLE/", "IEO/",
-	"OILU/", "OILD/"
+	"SOXX", "SOXL", "SOXS", "QQQ", "TQQQ", "SQQQ", "FNGS", "FNGU", "FNGD", "SPY", "SPXL", "SPXS", "XLF", "FAS",
+	"FAZ", "VGT", "TECL", "TECS", "VTWO", "TNA", "TZA", "XBI", "LABU", "LABD", "TLT", "TMF", "TMV", "DIA", "UDOW",
+	"SDOW", "FXI", "YINN", "YANG", "FDN", "WEBL", "WEBS", "EEM", "EDC", "EDZ", "SPHB", "HIBL", "HIBS", "IYR", "DRN",
+	"DRV", "MDY", "UMDD", "SMDD", "IEF", "TYD", "TYO", "BULZ", "BERZ", "GDX", "GDXJ", "GDXU", "GDXD", "XLE", "IEO",
+	"OILU", "OILD"
 ]
 
 POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY")
@@ -33,11 +33,11 @@ params = {
 
 while iterDate < todayDate:
 	for ticker in TICKER_LIST:
-		if (ticker == "BULZ/" or ticker == "BERZ/") and iterDate.strftime('%Y-%m-%d') < "2021-08-18":
+		if (ticker == "BULZ" or ticker == "BERZ") and iterDate.strftime('%Y-%m-%d') < "2021-08-18":
 			continue
-		if (ticker == "OILU/" or ticker == "OILD/") and iterDate.strftime('%Y-%m-%d') < "2021-11-09":
+		if (ticker == "OILU" or ticker == "OILD") and iterDate.strftime('%Y-%m-%d') < "2021-11-09":
 			continue
-		if (ticker == "IEO/") and iterDate.strftime('%Y-%m-%d') < "2021-11-08":
+		if (ticker == "IEO") and iterDate.strftime('%Y-%m-%d') < "2021-11-08":
 			continue
 		specificUrl = urljoin(BASE_URL, ticker)
 		if iterDate.isoweekday() in set((6, 7)):
@@ -45,10 +45,10 @@ while iterDate < todayDate:
 
 		dateString = iterDate.strftime('%Y-%m-%d')
 
-		with open('data/' + ticker[:-1], "r") as fileReader:
+		with open('data/' + ticker, "r") as fileReader:
 			masterJson = json.load(fileReader)
 			if dateString in masterJson:
-				print(ticker[:-1] + " already has data for " + dateString + ", skipping")
+				print(ticker + " already has data for " + dateString + ", skipping")
 				continue
 
 		specificUrl = urljoin(specificUrl, dateString)
@@ -67,13 +67,13 @@ while iterDate < todayDate:
 			date = data.pop('from')
 			# print(json_object)
 			masterJson = {}
-			with open("data/" + ticker[:-1], "r") as fileReader:
+			with open("data/" + ticker, "r") as fileReader:
 				masterJson = json.load(fileReader)
 			if not masterJson:
-				print("Error reading data/" + ticker[:-1])
+				print("Error reading data/" + ticker)
 				continue
 			masterJson[date] = data
-			with open("data/" + ticker[:-1], "w") as fileWriter:
+			with open("data/" + ticker, "w") as fileWriter:
 				fileWriter.write(json.dumps(masterJson, indent=2))
 		except requests.HTTPError as e:
 			print("Encountered HTTPError %s" % (repr(e)))
